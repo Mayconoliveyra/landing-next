@@ -51,7 +51,7 @@ const Header = () => {
             alt="Maycon Developer"
             variant="square"
             src="/assets/images/logo.png"
-            sx={{ width: 'auto', height: 65, mr: 10, display: { mobile: 'none', tablet: 'flex' } }}
+            sx={{ width: 'auto', height: 65, mr: 10, ml: 2, display: { mobile: 'none', tablet: 'flex' } }}
           />
 
           <Box sx={{ flexGrow: 1, display: { mobile: 'flex', tablet: 'none' } }}>
@@ -84,14 +84,14 @@ const Header = () => {
             </Menu>
           </Box>
 
-          <Box sx={{ display: { mobile: 'flex', tablet: 'none' }, flexGrow: 1 }}>
+          <Box sx={{ display: { mobile: 'flex', tablet: 'none' }, flexGrow: 1, justifyContent: 'flex-end' }}>
             <Avatar
               component={Link}
               href="/"
               alt="Maycon Developer"
               variant="square"
               src="/assets/images/logo.png"
-              sx={{ width: 'auto', height: 47, mr: 2 }}
+              sx={{ width: 'auto', height: 65, mr: 2 }}
             />
           </Box>
 
@@ -120,7 +120,7 @@ const Header = () => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ display: { mobile: 'none' } }}>
             <Button onClick={directToWhatsapp} size="large" variant="outlined" sx={{ textTransform: 'none' }}>
               Contato <WhatsApp sx={{ marginLeft: 1, width: 23, height: 23 }} />
             </Button>
