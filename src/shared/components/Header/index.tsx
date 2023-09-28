@@ -59,6 +59,7 @@ const Header = () => {
               <MenuIcon />
             </IconButton>
             <Menu
+              component="nav"
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -77,7 +78,7 @@ const Header = () => {
               }}
             >
               {PAGES_OPTIONS.map((page) => (
-                <MenuItem sx={{ marginRight: 8 }} key={page.path} onClick={handleCloseNavMenu}>
+                <MenuItem sx={{ paddingRight: 8 }} key={page.path} component={Link} href={page.path} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
@@ -95,10 +96,12 @@ const Header = () => {
             />
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { mobile: 'none', tablet: 'flex' } }}>
+          <Box component="nav" sx={{ flexGrow: 1, display: { mobile: 'none', tablet: 'flex' } }}>
             {PAGES_OPTIONS.map((page) => (
               <Button
                 key={page.path}
+                component={Link}
+                href={page.path}
                 disableElevation
                 disableFocusRipple
                 disableRipple
