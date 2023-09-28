@@ -1,9 +1,14 @@
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import { useCallback, useState } from 'react';
 
 import { getPrismicClient } from '../shared/services/prismic';
 
+import { maskPhone, maskPhone9 } from '../shared/utils/masks';
+
 import Prismic from '@prismicio/client';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 
 import {
   Avatar,
@@ -15,10 +20,14 @@ import {
   CardMedia,
   Divider,
   Grid,
+  Paper,
+  Snackbar,
   Theme,
   Typography,
   useMediaQuery,
 } from '@mui/material';
+
+import { FTextField, FTextFieldMask } from '../shared/forms/FTextField';
 
 interface IPrismicContent {
   title_1: string;
@@ -38,8 +47,10 @@ interface IPrismicContent {
   img_service_3: { url: string; alt: string };
   title_service_3: string;
   text_service_3: string;
-}
 
+  title_3: string;
+  sub_title_3: string;
+}
 interface ICardService {
   img_service: { url: string; alt: string };
   title_service: string;
@@ -69,9 +80,57 @@ const CardService = ({ img_service, title_service, text_service }: ICardService)
   );
 };
 
+interface IFormData {
+  nome: string;
+  contato: string;
+  email: string;
+}
+const scheme: yup.Schema<IFormData> = yup.object().shape({
+  nome: yup.string().required().trim().max(100),
+  email: yup.string().required().trim().email().max(100),
+  contato: yup
+    .string()
+    .required()
+    .trim()
+    .test('valid-length', 'Insira um contato válido.', (value) => {
+      if (value.length === 10 || value.length === 11) return true;
+      return false;
+    }),
+});
+const initialValues: IFormData = {
+  nome: '',
+  email: '',
+  contato: '',
+};
+
 export default function Home({ content }: { content: IPrismicContent }) {
   const tablet = useMediaQuery((theme: Theme) => theme.breakpoints.only('tablet'));
   const desktop = useMediaQuery((theme: Theme) => theme.breakpoints.only('desktop'));
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const formik = useFormik<IFormData>({
+    initialValues: initialValues,
+    validationSchema: scheme,
+    enableReinitialize: true,
+    validateOnBlur: true,
+    validateOnChange: false,
+    onSubmit: () => {
+      formik.resetForm({
+        values: {
+          ...initialValues,
+        },
+      });
+      setSnackbarOpen(true);
+    },
+  });
+
+  const handleCloseSnackbar = useCallback((event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  }, []);
 
   return (
     <>
@@ -79,9 +138,9 @@ export default function Home({ content }: { content: IPrismicContent }) {
         <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
       </Head>
 
-      <Box display="flex" flex={1} maxWidth="desktop" margin="0 auto">
+      <Box display="flex" flex={1} maxWidth="desktop" margin="0 auto" marginTop={10}>
         <Box flex={1}>
-          {/* Section */}
+          {/* Sessão inicial */}
           <Box
             component="section"
             display="flex"
@@ -105,7 +164,7 @@ export default function Home({ content }: { content: IPrismicContent }) {
               <Typography
                 variant="body1"
                 lineHeight={2}
-                component="h1"
+                component="span"
                 color="#AFAFAF"
                 sx={{ textAlign: { mobile: 'center', tablet: 'left' }, marginTop: 2 }}
               >
@@ -178,8 +237,77 @@ export default function Home({ content }: { content: IPrismicContent }) {
               </Grid>
             </Box>
           </Box>
+
+          <Box marginTop={5} marginBottom={5}>
+            <Divider />
+          </Box>
+
+          {/* Sessão orçamento */}
+          <Box
+            component="section"
+            display="flex"
+            sx={{
+              flexDirection: { mobile: 'column', tablet: 'row' },
+              padding: { mobile: 2, tablet: 4 },
+              marginTop: { mobile: 2, tablet: 5 },
+            }}
+          >
+            <Box maxWidth={730} display="flex" flexDirection="column">
+              <Typography
+                variant={desktop || tablet ? 'h3' : 'h4'}
+                lineHeight={1.3}
+                fontWeight={700}
+                component="h3"
+                color="white"
+                sx={{ textAlign: { mobile: 'center', tablet: 'left' } }}
+              >
+                {content.title_3}
+              </Typography>
+              <Typography
+                variant="body1"
+                lineHeight={2}
+                component="span"
+                color="#AFAFAF"
+                sx={{ textAlign: { mobile: 'center', tablet: 'left' }, marginTop: 2 }}
+              >
+                {content.sub_title_3}
+              </Typography>
+            </Box>
+            <Box
+              component={Paper}
+              width="100%"
+              sx={{
+                padding: desktop ? 4 : tablet ? 3 : 2,
+                marginLeft: { tablet: 5 },
+                marginTop: desktop || tablet ? 0 : 4,
+              }}
+            >
+              <FTextField required label="Seu nome" name="nome" formik={formik} maxLength={100} />
+              <FTextField required label="E-mail" name="email" formik={formik} maxLength={100} />
+              <FTextFieldMask
+                required
+                label="Telefone"
+                name="contato"
+                mask={[maskPhone, maskPhone9]}
+                inputMode="numeric"
+                formik={formik}
+              />
+              <Box sx={{ marginTop: 3, display: 'flex', justifyContent: { mobile: 'center', tablet: 'flex-end' } }}>
+                <Button type="submit" onClick={() => formik.handleSubmit()} sx={{ textTransform: 'none' }} variant="contained">
+                  Enviar informações
+                </Button>
+              </Box>
+            </Box>
+          </Box>
         </Box>
       </Box>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={handleCloseSnackbar}
+        message="Formulário enviado com sucesso! Entraremos em contato em breve."
+      />
     </>
   );
 }
@@ -189,7 +317,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const response = await prismic.query([Prismic.Predicates.at('document.type', 'home')]);
 
-  console.log(response.results[0].data);
+  /*  console.log(response.results[0].data); */
 
   const {
     title_1,
@@ -205,6 +333,8 @@ export const getStaticProps: GetStaticProps = async () => {
     img_service_3,
     title_service_3,
     text_service_3,
+    title_3,
+    sub_title_3,
   } = response.results[0].data;
 
   const content = {
@@ -224,6 +354,9 @@ export const getStaticProps: GetStaticProps = async () => {
     img_service_3: { url: img_service_3.url, alt: img_service_3.alt },
     title_service_3: title_service_3[0].text,
     text_service_3: text_service_3[0].text,
+
+    title_3: title_3[0].text,
+    sub_title_3: sub_title_3[0].text,
   };
 
   return {
