@@ -322,7 +322,7 @@ export default function Home({ content }: { content: IPrismicContent }) {
 export const getStaticProps: GetStaticProps = async () => {
   const prismic = getPrismicClient();
 
-  const response: any = await prismic.query([Prismic.Predicates.at('document.type', 'home')]);
+  const response = await prismic.query([Prismic.Predicates.at('document.type', 'home')]);
 
   console.log('aquiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
   console.log(response.results[0].data);
@@ -349,7 +349,7 @@ export const getStaticProps: GetStaticProps = async () => {
     text_service_3,
     title_3,
     sub_title_3,
-  } = response.results[0].data;
+  } = response.results[0].data as any;
 
   const content = {
     title_1: title_1[0].text,
