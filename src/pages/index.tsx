@@ -9,6 +9,7 @@ import { getPrismicClient } from '../shared/services/prismic';
 import { maskPhone, maskPhone9 } from '../shared/utils/masks';
 
 import Prismic from '@prismicio/client';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
@@ -83,14 +84,14 @@ const CardService = ({ img_service, title_service, text_service }: ICardService)
 };
 
 interface IFormData {
-  nome: string;
-  contato: string;
+  name: string;
   email: string;
+  contact: string;
 }
 const scheme: yup.Schema<IFormData> = yup.object().shape({
-  nome: yup.string().required().trim().max(100),
+  name: yup.string().required().trim().max(100),
   email: yup.string().required().trim().email().max(100),
-  contato: yup
+  contact: yup
     .string()
     .required()
     .trim()
@@ -100,9 +101,9 @@ const scheme: yup.Schema<IFormData> = yup.object().shape({
     }),
 });
 const initialValues: IFormData = {
-  nome: '',
+  name: '',
   email: '',
-  contato: '',
+  contact: '',
 };
 
 export default function Home({ content }: { content: IPrismicContent }) {
@@ -117,13 +118,16 @@ export default function Home({ content }: { content: IPrismicContent }) {
     enableReinitialize: true,
     validateOnBlur: true,
     validateOnChange: false,
-    onSubmit: () => {
+    onSubmit: (values) => {
       formik.resetForm({
         values: {
           ...initialValues,
         },
       });
       setSnackbarOpen(true);
+
+      // Não vou aguardar o retorno.
+      axios.post('/api/sendEmail', { ...values });
     },
   });
 
@@ -280,16 +284,17 @@ export default function Home({ content }: { content: IPrismicContent }) {
               width="100%"
               sx={{
                 padding: desktop ? 4 : tablet ? 3 : 2,
+                paddingBottom: desktop ? 4 : tablet ? 4 : 3,
                 marginLeft: { tablet: 5 },
                 marginTop: desktop || tablet ? 0 : 4,
               }}
             >
-              <FTextField required label="Seu nome" name="nome" formik={formik} maxLength={100} />
+              <FTextField required label="Seu nome" name="name" formik={formik} maxLength={100} />
               <FTextField required label="E-mail" name="email" formik={formik} maxLength={100} />
               <FTextFieldMask
                 required
                 label="Telefone"
-                name="contato"
+                name="contact"
                 mask={[maskPhone, maskPhone9]}
                 inputMode="numeric"
                 formik={formik}

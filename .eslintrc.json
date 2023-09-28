@@ -36,6 +36,7 @@
     ],
     "@typescript-eslint/no-explicit-any": "off",
     "no-useless-escape": "off",
+    "import/no-anonymous-default-export": "off",
     "import-helpers/order-imports": [
       "warn",
       {
