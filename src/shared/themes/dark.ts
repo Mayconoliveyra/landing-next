@@ -23,9 +23,6 @@ declare module '@mui/material/styles' {
     tablet: true;
     desktop: true;
   }
-  interface TypeBackground {
-    myPaper?: string;
-  }
 }
 
 export const dark = createTheme({
@@ -38,7 +35,8 @@ export const dark = createTheme({
       main: '#3EA6FF',
     },
     background: {
-      myPaper: '#212121',
+      default: '#111113',
+      paper: '#15171b',
     },
   },
   typography: {

@@ -52,7 +52,7 @@
           ["/services/"],
           ["/utils/"],
 
-          ["/axios/", "/formik/", "/yup/", "/moment/", "/nookies/", "/react-imask/", "/react-number-format/"],
+          ["/axios/", "/formik/", "/yup/", "/moment/", "/nookies/", "/react-imask/", "/react-number-format/", "/@prismicio/"],
           ["/@mui/"]
         ],
         "alphabetize": { "order": "asc", "ignoreCase": true }

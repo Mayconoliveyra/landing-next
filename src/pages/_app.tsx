@@ -2,6 +2,8 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 
+import { LayoutBase } from '../shared/layouts/LayoutBase';
+
 import { AppThemeProvider } from '../shared/context/ThemeContext';
 import createEmotionCache from '../shared/themes/createEmotionCache';
 
@@ -24,7 +26,9 @@ export default function MyApp(props: MyAppProps) {
       </Head>
 
       <AppThemeProvider>
-        <Component {...pageProps} />
+        <LayoutBase>
+          <Component {...pageProps} />
+        </LayoutBase>
       </AppThemeProvider>
     </CacheProvider>
   );

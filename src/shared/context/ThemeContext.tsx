@@ -26,7 +26,7 @@ export const useAppThemeContext = () => {
 };
 
 export const AppThemeProvider = ({ children }: AppThemeProviderProps) => {
-  const [themeName, setThemeName] = useState<'light' | 'dark'>('light');
+  const [themeName, setThemeName] = useState<'light' | 'dark'>('dark');
 
   const toggleTheme = useCallback(() => {
     setThemeName((oldThemeName) => {
@@ -57,7 +57,7 @@ export const AppThemeProvider = ({ children }: AppThemeProviderProps) => {
       <GlobalStyles />
 
       <ThemeProvider theme={theme}>
-        <Box flex={1} display="flex" flexDirection="column" bgcolor={theme.palette.background.default}>
+        <Box component="main" flex={1} display="flex" flexDirection="column" bgcolor={theme.palette.background.default}>
           {children}
         </Box>
       </ThemeProvider>

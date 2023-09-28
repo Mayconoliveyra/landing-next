@@ -23,9 +23,6 @@ declare module '@mui/material/styles' {
     tablet: true;
     desktop: true;
   }
-  interface TypeBackground {
-    myPaper?: string;
-  }
 }
 
 export const light = createTheme({
@@ -36,9 +33,6 @@ export const light = createTheme({
     },
     secondary: {
       main: '#3EA6FF',
-    },
-    background: {
-      myPaper: '#f2f2f2',
     },
   },
   typography: {
