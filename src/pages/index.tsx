@@ -324,7 +324,8 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const response = await prismic.query([Prismic.Predicates.at('document.type', 'home')]);
 
-  /*  console.log(response.results[0].data); */
+  console.log('aquiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
+  console.log(response.results[0].data);
 
   const {
     title_1,
