@@ -70,7 +70,7 @@ const CardService = ({ img_service, title_service, text_service }: ICardService)
         }}
       >
         <CardMedia component="img" height="250" image={img_service.url} alt={img_service.alt} />
-        <CardContent sx={{ flex: 1 }}>
+        <CardContent sx={{ flex: 1, paddingBottom: 4 }}>
           <Typography gutterBottom variant="h5" component="div">
             {title_service}
           </Typography>
@@ -144,7 +144,7 @@ export default function Home({ content }: { content: IPrismicContent }) {
         <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
       </Head>
 
-      <Box display="flex" flex={1} maxWidth="desktop" margin="0 auto" marginBottom={10}>
+      <Box display="flex" flex={1} maxWidth="desktop" margin="0 auto" marginBottom={7}>
         <Box flex={1}>
           {/* Sessão inicial */}
           <Box

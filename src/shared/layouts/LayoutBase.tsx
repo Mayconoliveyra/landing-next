@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from 'react';
 
 import { Header } from '../components/Header';
 
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 interface ILayoutBase {
   children: ReactNode;
@@ -22,6 +22,11 @@ const LayoutBase = ({ children }: ILayoutBase) => {
           <Header />
           <Box component="section" display="flex" flex={1} sx={{ marginTop: { mobile: 8, tablet: 11 } }}>
             {children}
+          </Box>
+          <Box bgcolor="#000000" component="footer" display="flex" alignItems="center" justifyContent="center" padding={4}>
+            <Typography variant="caption" color="#AFAFAF">
+              Todos os direitos reservados
+            </Typography>
           </Box>
         </>
       )}
