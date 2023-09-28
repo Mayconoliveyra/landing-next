@@ -1,6 +1,8 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 
+import { WhatsApp } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
@@ -11,7 +13,6 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
 const PAGES_OPTIONS = [
@@ -19,12 +20,18 @@ const PAGES_OPTIONS = [
   { name: 'Sobre', path: 'sobre' },
   { name: 'Blog', path: 'blog' },
 ];
+const CONTACT_WHATSAPP = '558399675920';
+const MENSAGEM_WHATSAPP = `Olá, preciso de um orçamento.`;
 
-export const Header = () => {
+const directToWhatsapp = () => {
+  const linkRedirect = `https://wa.me/${CONTACT_WHATSAPP}?text=${MENSAGEM_WHATSAPP}`;
+  window.open(linkRedirect, '_blank');
+};
+
+const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
   const router = useRouter();
-  console.log(router);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -35,12 +42,12 @@ export const Header = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Container maxWidth="desktop">
         <Toolbar disableGutters sx={{ paddingY: 1 }}>
           <Avatar
-            component="a"
-            href="#app-bar-with-responsive-menu"
+            component={Link}
+            href="/"
             alt="Maycon Developer"
             variant="square"
             src="/assets/images/logo.png"
@@ -48,7 +55,7 @@ export const Header = () => {
           />
 
           <Box sx={{ flexGrow: 1, display: { mobile: 'flex', tablet: 'none' } }}>
-            <IconButton size="large" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
+            <IconButton size="large" onClick={handleOpenNavMenu} color="inherit">
               <MenuIcon />
             </IconButton>
             <Menu
@@ -79,8 +86,8 @@ export const Header = () => {
 
           <Box sx={{ display: { mobile: 'flex', tablet: 'none' }, flexGrow: 1 }}>
             <Avatar
-              component="a"
-              href="#app-bar-with-responsive-menu"
+              component={Link}
+              href="/"
               alt="Maycon Developer"
               variant="square"
               src="/assets/images/logo.png"
@@ -114,12 +121,14 @@ export const Header = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton sx={{ p: 0 }}>aa</IconButton>
-            </Tooltip>
+            <Button onClick={directToWhatsapp} size="large" variant="outlined" sx={{ textTransform: 'none' }}>
+              Contato <WhatsApp sx={{ marginLeft: 1, width: 23, height: 23 }} />
+            </Button>
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
   );
 };
+
+export { Header, directToWhatsapp };

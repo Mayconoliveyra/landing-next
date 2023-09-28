@@ -2,6 +2,8 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useCallback, useState } from 'react';
 
+import { directToWhatsapp } from '../shared/components/Header';
+
 import { getPrismicClient } from '../shared/services/prismic';
 
 import { maskPhone, maskPhone9 } from '../shared/utils/masks';
@@ -138,7 +140,7 @@ export default function Home({ content }: { content: IPrismicContent }) {
         <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
       </Head>
 
-      <Box display="flex" flex={1} maxWidth="desktop" margin="0 auto" marginTop={10}>
+      <Box display="flex" flex={1} maxWidth="desktop" margin="0 auto" marginBottom={10}>
         <Box flex={1}>
           {/* Sessão inicial */}
           <Box
@@ -171,7 +173,7 @@ export default function Home({ content }: { content: IPrismicContent }) {
                 {content.sub_title_1}
               </Typography>
               <Box sx={{ marginTop: 3, display: 'flex', justifyContent: { mobile: 'center', tablet: 'flex-start' } }}>
-                <Button variant="contained" size="large">
+                <Button onClick={directToWhatsapp} variant="contained" size="large">
                   Contatar
                 </Button>
               </Box>

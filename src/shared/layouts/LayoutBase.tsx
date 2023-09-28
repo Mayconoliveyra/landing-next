@@ -20,10 +20,9 @@ const LayoutBase = ({ children }: ILayoutBase) => {
       {pageFullLoad && (
         <>
           <Header />
-          <Box component="section" display="flex" flex={1}>
+          <Box component="section" display="flex" flex={1} sx={{ marginTop: { mobile: 8, tablet: 11 } }}>
             {children}
           </Box>
-          <Box component="footer">rodape</Box>
         </>
       )}
     </>
