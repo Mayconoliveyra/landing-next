@@ -142,6 +142,10 @@ export default function Home({ content }: { content: IPrismicContent }) {
     <>
       <Head>
         <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
+        <meta
+          name="description"
+          content="Transforme sua visão em realidade com os serviços de desenvolvedor de sistemas. Desenvolvemos soluções personalizadas para atender às suas necessidades."
+        />
       </Head>
 
       <Box display="flex" flex={1} maxWidth="desktop" margin="0 auto" marginBottom={7}>
