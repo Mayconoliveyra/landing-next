@@ -47,7 +47,7 @@ export const AppThemeProvider = ({ children }: AppThemeProviderProps) => {
     if (getCustomCookie('APP_THEME_NAME') === 'dark') {
       setThemeName('dark');
     } else {
-      setThemeName('light');
+      setThemeName('dark');
     }
   }, []);
 
