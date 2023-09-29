@@ -222,21 +222,21 @@ export default function Home({ content }: { content: IPrismicContent }) {
                 <Grid mobile={12} tablet={6} desktop={4} item>
                   <CardService
                     img_service={{ ...content.img_service_1 }}
-                    title_service={content.text_service_1}
+                    title_service={content.title_service_1}
                     text_service={content.text_service_1}
                   />
                 </Grid>
                 <Grid mobile={12} tablet={6} desktop={4} item>
                   <CardService
                     img_service={{ ...content.img_service_2 }}
-                    title_service={content.text_service_2}
+                    title_service={content.title_service_2}
                     text_service={content.text_service_2}
                   />
                 </Grid>
                 <Grid mobile={12} tablet={6} desktop={4} item>
                   <CardService
                     img_service={{ ...content.img_service_3 }}
-                    title_service={content.text_service_3}
+                    title_service={content.title_service_3}
                     text_service={content.text_service_3}
                   />
                 </Grid>
